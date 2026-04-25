@@ -1,5 +1,5 @@
 FROM node:20-alpine
-
+RUN npm install --production
 # Carpeta de trabajo
 WORKDIR /app
 
@@ -16,4 +16,4 @@ COPY . .
 EXPOSE 3000
 
 # Comando de inicio (IMPORTANTE)
-CMD ["node", "index.js"]
+CMD ["node", "hola.js"]
