@@ -1,7 +1,19 @@
-FROM python:3.11-slim
+FROM node:20-alpine
+
+# Carpeta de trabajo
 WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+
+# Copiar dependencias primero (mejor cache)
+COPY package*.json ./
+
+# Instalar dependencias
+RUN npm ci --only=production
+
+# Copiar el resto del código
 COPY . .
-EXPOSE 8000
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+# Puerto que usa Railway
+EXPOSE 3000
+
+# Comando de inicio (IMPORTANTE)
+CMD ["node", "index.js"]
