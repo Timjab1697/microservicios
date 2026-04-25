@@ -1,19 +1,7 @@
-FROM node:20-alpine
-
-# Carpeta de trabajo
+FROM python:3.11-slim
 WORKDIR /app
-
-# Copiar package.json primero (mejor cache)
-COPY package*.json ./
-
-# Instalar dependencias
-RUN npm ci --omit=dev
-
-# Copiar el resto del código
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 COPY . .
-
-# Puerto que usa Railway (importante usar variable PORT)
-EXPOSE 3000
-
-# Comando de inicio
-CMD ["node", "hola.js"]
+EXPOSE 8000
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
