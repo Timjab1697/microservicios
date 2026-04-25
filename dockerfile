@@ -1,19 +1,19 @@
 FROM node:20-alpine
-RUN npm install --production
+
 # Carpeta de trabajo
 WORKDIR /app
 
-# Copiar dependencias primero (mejor cache)
+# Copiar package.json primero (mejor cache)
 COPY package*.json ./
 
 # Instalar dependencias
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 
 # Copiar el resto del código
 COPY . .
 
-# Puerto que usa Railway
+# Puerto que usa Railway (importante usar variable PORT)
 EXPOSE 3000
 
-# Comando de inicio (IMPORTANTE)
+# Comando de inicio
 CMD ["node", "hola.js"]
